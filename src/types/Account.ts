@@ -13,7 +13,7 @@
 export interface Account {
     id: number
     label: string
-    type: 'local' | 'ldap' | ''
+    type: 'local' | 'ldap' | null
     login: string
     password: string | null
   }

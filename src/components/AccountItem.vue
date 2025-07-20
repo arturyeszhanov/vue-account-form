@@ -18,6 +18,7 @@
       :label="showLabels ? 'Тип записи' : ''"
       class="input-item input-type"
       label-position="top"
+      prop="type"
     >
       <el-select
         :model-value="modelValue.type"
@@ -34,6 +35,7 @@
       :label="showLabels ? 'Логин' : ''"
       :class="['input-item', 'input-login', { 'full-width': modelValue.type === 'ldap' }]"
       label-position="top"
+      prop="login"
     >
       <el-input
         :model-value="modelValue.login"
@@ -48,6 +50,7 @@
       :label="showLabels ? 'Пароль' : ''"
       class="input-item input-password"
       label-position="top"
+      prop="password"
     >
     <el-input
         :model-value="modelValue.password"
@@ -63,6 +66,7 @@
         type="danger"
         @click="$emit('remove')"
         class="remove-btn"
+        title="Удалить"
     />
   </div>
 </template>
@@ -96,11 +100,11 @@ function updateField(field: string, value: any) {
   })
 }
 
-function onTypeChange(value: 'local' | 'ldap') {
+function onTypeChange(value: 'local' | 'ldap' | '') {
   emit('update:modelValue', {
     ...props.modelValue,
     type: value,
-    password: value === 'ldap' ? null : props.modelValue.password ?? ''
+    password: value === 'ldap' ? null : ''
   })
 }
 
