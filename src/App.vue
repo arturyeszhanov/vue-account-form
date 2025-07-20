@@ -1,47 +1,74 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="container">
+    <div class="title">
+      <h2>Учетные записи</h2>
+      <el-button type="primary" class="add-btn" @click="addAccount">
+        <el-icon><Plus /></el-icon>
+      </el-button>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <div class="subtitle">
+      <el-icon class="subtitle-icon">
+        <QuestionFilled />
+      </el-icon>
+      <span>Для указания нескольких меток для одной пары <strong>логин/пароль</strong> используйте разделитель <strong>;</strong></span>
+    </div>
+  </div>
 </template>
 
+<script setup lang="ts">
+import { Plus, QuestionFilled } from '@element-plus/icons-vue'
+function addAccount() {
+  console.log('Добавить запись')
+}
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 20px;
+}
+.title {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* расстояние между заголовком и кнопкой */
+  margin-bottom: 16px;
+  font-family: Inter, sans-sarif;
+  font-weight: 400;
+}
+.add-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 4px; /* квадратная форма */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.add-btn .el-icon {
+  font-size: 24px;  /* увеличить размер плюса */
+  font-weight: bold; /* сделать жирнее */
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+/* Абзац с иконкой */
+.subtitle {
+  font-family: Inter, sans-sarif;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #555;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.subtitle-icon {
+  margin-right: 8px;
+  color: #409eff;
+  font-size: 26px;
 }
 </style>
