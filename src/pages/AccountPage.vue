@@ -1,3 +1,4 @@
+<!-- src/pages/AccountPage.vue -->
 <template>
   <div class="container">
     <div class="title">
@@ -11,28 +12,21 @@
       <el-icon class="subtitle-icon">
         <QuestionFilled />
       </el-icon>
-      <span>Для указания нескольких меток для одной пары <strong>логин/пароль</strong> используйте разделитель <strong>;</strong></span>
+      <span>
+        Для указания нескольких меток для одной пары <strong>логин/пароль</strong>
+        используйте разделитель <strong>;</strong>
+      </span>
     </div>
 
     <AccountList :accounts="accounts" @remove="removeAccount" />
-    
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Plus, QuestionFilled } from '@element-plus/icons-vue'
-import AccountList from './AccountList.vue'
+import AccountList from '@/components/AccountList.vue'
 import type { Account } from '@/types'
-
-
-interface Account {
-  id: number
-  label: string
-  type: 'local' | 'ldap' | ''
-  login: string
-  password: string | null
-}
 
 const accounts = ref<Account[]>([])
 
@@ -46,12 +40,10 @@ function addAccount() {
   })
 }
 
-
 function removeAccount(index: number) {
   accounts.value.splice(index, 1)
 }
 </script>
-
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
