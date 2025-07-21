@@ -8,11 +8,11 @@ export const AccountStore = defineStore('account', () => {
   function addAccount(account: NewAccount) {
     const newAccount: Account = {
       ...account,
-      id: Date.now(),
+      id: crypto.randomUUID(),
       password: account.password ?? null,
+      dirty: false
     }
     accounts.value.push(newAccount)
-    saveToLocalStorage()
   }
 
   function removeAccount(index: number) {

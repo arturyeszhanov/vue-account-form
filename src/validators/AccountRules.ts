@@ -13,7 +13,7 @@ export const accountRules = {
       
             if (account.type === 'local') {
               if (!value || trimmed === '') {
-                return callback(new Error('Пароль обязателен для типа "local"'))
+                return callback(new Error('Поле обязательно"'))
               }
       
               if (trimmed.length > 5) {

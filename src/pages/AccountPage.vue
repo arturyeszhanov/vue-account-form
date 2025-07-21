@@ -1,24 +1,23 @@
-<!-- src/pages/AccountPage.vue -->
 <template>
+<p>Всего аккаунтов: {{ accounts.length }}</p>
   <div class="container">
     <div class="title">
-      <h2>Учетные записи</h2>
-      <el-button type="primary" class="add-btn" @click="addAccount">
+        <h2>Учетные записи</h2>
+        <el-button type="primary" class="add-btn" @click="addAccount">
         <el-icon><Plus /></el-icon>
-      </el-button>
+        </el-button>
     </div>
-
     <div class="subtitle">
       <el-icon class="subtitle-icon">
         <QuestionFilled />
       </el-icon>
       <span>
-        Для указания нескольких меток для одной пары <strong>логин/пароль</strong>
-        используйте разделитель <strong>;</strong>
+        Для указания нескольких меток для одной пары <strong>логин/пароль</strong> используйте разделитель <strong>;</strong>
       </span>
     </div>
 
-    <AccountList :accounts="accounts" @remove="removeAccount" @update="updateAccount"/>
+    <AccountList :accounts="store.accounts" @remove="removeAccount" @update="updateAccount"/>
+  
   </div>
 </template>
 
@@ -30,20 +29,19 @@ import type { Account } from '@/types/Account'
 import { AccountStore } from '@/stores/AccountStore'
 
 const store = AccountStore()
-const accounts = computed(() => store.accounts)
-
+const accounts = store.accounts
 
 onMounted(() => { store.loadFromLocalStorage()})
 
 function addAccount() {
   store.addAccount({
     label: '',
-    type: 'local',
+    type: null,
     login: '',
-    password: ''
+    password: '',
+	dirty: false
   })
 }
-
 
 function removeAccount(index: number) {
   store.removeAccount(index)
@@ -52,9 +50,9 @@ function removeAccount(index: number) {
 function updateAccount(index: number, updated: Account) {
   store.updateAccount(index, updated)
 }
+
+
 </script>
-
-
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -109,32 +107,4 @@ function updateAccount(index: number, updated: Account) {
   color: #409eff;
   font-size: 26px;
 }
-
-
-
-.fade-slide-enter-active,
-.fade-slide-leave-active {
-  transition: all 0.3s ease;
-}
-
-.fade-slide-enter-from {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
-.fade-slide-enter-to {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.fade-slide-leave-from {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.fade-slide-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
-}
-
 </style>

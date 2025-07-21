@@ -4,10 +4,8 @@
     <el-form-item
       :label="showLabels ? 'Метка' : ''"
       class="input-item input-label"
-      label-position="top"
     >
       <el-input
-        
         :model-value="modelValue.label"
         @input="val => updateField('label', val)"
         placeholder="Значение"
@@ -18,7 +16,6 @@
     <el-form-item
       :label="showLabels ? 'Тип записи' : ''"
       class="input-item input-type"
-      label-position="top"
       prop="type"
     >
       <el-select
@@ -35,12 +32,10 @@
     <el-form-item
       :label="showLabels ? 'Логин' : ''"
       :class="['input-item', 'input-login', { 'full-width': modelValue.type === 'ldap' }]"
-      label-position="top"
       prop="login"
     >
       <el-input
-          :model-value="modelValue.login"
-
+        :model-value="modelValue.login"
         @input="val => updateField('login', val)"
         placeholder="Значение"
       />
@@ -51,11 +46,10 @@
       v-if="modelValue.type !== 'ldap'"
       :label="showLabels ? 'Пароль' : ''"
       class="input-item input-password"
-      label-position="top"
       prop="password"
     >
     <el-input
-          :model-value="modelValue.password"
+        :model-value="modelValue.password"
         @input="val => updateField('password', val)"
         placeholder="Значение"
         show-password
@@ -77,13 +71,10 @@
 import { Delete } from '@element-plus/icons-vue'
 import type { NewAccount } from '@/types'
 
-
 const props = defineProps<{
-  modelValue: NewAccount & { password: string | null } // строго как форма
+  modelValue: NewAccount & { password: string | null }
   showLabels?: boolean
 }>()
-
-
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: typeof props.modelValue): void
@@ -91,6 +82,7 @@ const emit = defineEmits<{
 }>()
 
 
+// обновляем поле
 function updateField(key: keyof typeof props.modelValue, value: string | null) {
   emit('update:modelValue', {
     ...props.modelValue,
@@ -98,9 +90,9 @@ function updateField(key: keyof typeof props.modelValue, value: string | null) {
   })
 }
 
+// смена типа (и обнуление пароля если LDAP)
 function onTypeChange(value: 'local' | 'ldap') {
   const newPassword = value === 'ldap' ? null : props.modelValue.password ?? ''
-
   emit('update:modelValue', {
     ...props.modelValue,
     type: value,
