@@ -18,32 +18,44 @@
       </span>
     </div>
 
-    <AccountList :accounts="accounts" @remove="removeAccount" />
+    <AccountList :accounts="accounts" @remove="removeAccount" @update="updateAccount"/>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onMounted } from 'vue'
 import { Plus, QuestionFilled } from '@element-plus/icons-vue'
 import AccountList from '@/components/AccountList.vue'
-import type { Account } from '@/types'
+import type { Account } from '@/types/Account'
+import { AccountStore } from '@/stores/AccountStore'
 
-const accounts = ref<Account[]>([])
+const store = AccountStore()
+const accounts = computed(() => store.accounts)
+
+
+onMounted(() => { store.loadFromLocalStorage()})
 
 function addAccount() {
-  accounts.value.push({
-    id: Date.now(),
+  store.addAccount({
     label: '',
-    type: '',
+    type: 'local',
     login: '',
     password: ''
   })
 }
 
+
 function removeAccount(index: number) {
-  accounts.value.splice(index, 1)
+  store.removeAccount(index)
+}
+
+function updateAccount(index: number, updated: Account) {
+  store.updateAccount(index, updated)
 }
 </script>
+
+
+
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -80,7 +92,7 @@ function removeAccount(index: number) {
 
 /* Абзац с иконкой */
 .subtitle {
-  font-family: Inter, sans-sarif;
+  font-family: Inter, sans-serif;
   font-weight: 400;
   display: flex;
   align-items: center;

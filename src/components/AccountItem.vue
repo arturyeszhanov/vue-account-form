@@ -7,6 +7,7 @@
       label-position="top"
     >
       <el-input
+        
         :model-value="modelValue.label"
         @input="val => updateField('label', val)"
         placeholder="Значение"
@@ -38,7 +39,8 @@
       prop="login"
     >
       <el-input
-        :model-value="modelValue.login"
+          :model-value="modelValue.login"
+
         @input="val => updateField('login', val)"
         placeholder="Значение"
       />
@@ -53,7 +55,7 @@
       prop="password"
     >
     <el-input
-        :model-value="modelValue.password"
+          :model-value="modelValue.password"
         @input="val => updateField('password', val)"
         placeholder="Значение"
         show-password
@@ -72,44 +74,44 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
 import { Delete } from '@element-plus/icons-vue'
+import type { NewAccount } from '@/types'
 
-const props = defineProps({
-  modelValue: {
-    type: Object as () => {
-      label: string
-      type: 'local' | 'ldap'
-      login: string
-      password: string | null
-    },
-    required: true
-  },
-  showLabels: {
-    type: Boolean,
-    default: false
-  }
-})
 
-const emit = defineEmits(['update:modelValue'])
+const props = defineProps<{
+  modelValue: NewAccount & { password: string | null } // строго как форма
+  showLabels?: boolean
+}>()
 
-function updateField(field: string, value: any) {
+
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: typeof props.modelValue): void
+  (e: 'remove'): void
+}>()
+
+
+function updateField(key: keyof typeof props.modelValue, value: string | null) {
   emit('update:modelValue', {
     ...props.modelValue,
-    [field]: value
+    [key]: value
   })
 }
 
-function onTypeChange(value: 'local' | 'ldap' | '') {
+function onTypeChange(value: 'local' | 'ldap') {
+  const newPassword = value === 'ldap' ? null : props.modelValue.password ?? ''
+
   emit('update:modelValue', {
     ...props.modelValue,
     type: value,
-    password: value === 'ldap' ? null : ''
+    password: newPassword,
   })
 }
 
 
+
 </script>
+
 
 <style scoped>
 .account-row {

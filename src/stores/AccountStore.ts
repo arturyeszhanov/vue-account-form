@@ -1,34 +1,50 @@
-import { defineStore } from 'pinia';
-import type { AccountItem } from '@/types/Account';
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import type { Account, NewAccount } from '@/types'
 
-export const useAccountStore = defineStore('accounts', {
-  state: () => ({
-    accounts: [] as AccountItem[],
-  }),
-  actions: {
-    addAccount(account: AccountItem) {
-      this.accounts.push(account);
-      this.saveToLocalStorage();
-    },
-    removeAccount(id: string) {
-      this.accounts = this.accounts.filter(a => a.id !== id);
-      this.saveToLocalStorage();
-    },
-    updateAccount(updated: AccountItem) {
-      const index = this.accounts.findIndex(a => a.id === updated.id);
-      if (index !== -1) {
-        this.accounts[index] = updated;
-        this.saveToLocalStorage();
-      }
-    },
-    saveToLocalStorage() {
-      localStorage.setItem('accounts', JSON.stringify(this.accounts));
-    },
-    loadFromLocalStorage() {
-      const data = localStorage.getItem('accounts');
-      if (data) {
-        this.accounts = JSON.parse(data);
-      }
-    },
-  },
-});
+export const AccountStore = defineStore('account', () => {
+  const accounts = ref<Account[]>([])
+
+  function addAccount(account: NewAccount) {
+    const newAccount: Account = {
+      ...account,
+      id: Date.now(),
+      password: account.password ?? null,
+    }
+    accounts.value.push(newAccount)
+    saveToLocalStorage()
+  }
+
+  function removeAccount(index: number) {
+    accounts.value.splice(index, 1)
+    saveToLocalStorage()
+  }
+
+  function updateAccount(index: number, updated: Account) {
+    accounts.value.splice(index, 1, updated)
+    saveToLocalStorage()
+  }
+
+  function saveToLocalStorage() {
+    localStorage.setItem('accounts', JSON.stringify(accounts.value))
+  }
+
+  function loadFromLocalStorage() {
+    const stored = localStorage.getItem('accounts')
+    if (stored) {
+      const parsed = JSON.parse(stored) as Account[]
+      accounts.value.splice(0, accounts.value.length, ...parsed)
+    }
+  }
+
+  loadFromLocalStorage()
+
+  return {
+    accounts,
+    addAccount,
+    removeAccount,
+    updateAccount,
+    saveToLocalStorage,
+    loadFromLocalStorage
+  }
+})
