@@ -13,15 +13,16 @@
 - Composition API + Script Setup
 
 ---
+<br><br>
+## 🔗 Деплой демонстрационной версии
 
-## 🚀 Деплой
-
-Проект развернут на [Vercel](https://your-project.vercel.app)
-
-
+📍 https://vue-account-form.vercel.app/
+<br><br>
 ## 🖥️ Главный экран
-![Главный экран](./src/assets/sreen.png)
-
+<p align="left">
+  <img src="./src/assets/sreen.png" alt="Главный экран" style="max-width: 800px; width: 100%;" />
+</p>
+<br><br>
 ## 📦 Установка
 
 ```bash
@@ -30,6 +31,7 @@ cd vue-account-form
 npm install
 npm run dev
 ```
+<br><br>
 
 ## 🗂 Структура проекта
 ```bash
@@ -56,7 +58,7 @@ npm run dev
 └── README.md
 
 ```
-
+<br>
 
 ## 📬 Контакты
 
