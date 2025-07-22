@@ -1,6 +1,5 @@
 <template>
   <div class="account-row">
-    <!-- Метка -->
     <el-form-item
       :label="showLabels ? 'Метка' : ''"
       class="input-item input-label"
@@ -13,7 +12,6 @@
       />
     </el-form-item>
 
-    <!-- Тип записи -->
     <el-form-item
       :label="showLabels ? 'Тип записи' : ''"
       class="input-item input-type"
@@ -30,7 +28,6 @@
       </el-select>
     </el-form-item>
 
-    <!-- Логин -->
     <el-form-item
       :label="showLabels ? 'Логин' : ''"
       :class="['input-item', 'input-login', { 'full-width': modelValue.type === 'ldap' }]"
@@ -44,7 +41,6 @@
       />
     </el-form-item>
 
-    <!-- Пароль (по умолчанию отображается, кроме LDAP) -->
     <el-form-item
       v-if="modelValue.type !== 'ldap'"
       :label="showLabels ? 'Пароль' : ''"
@@ -56,7 +52,6 @@
         @input="val => updateField('password', val)"
         placeholder="Значение"
         show-password
-        
     />
     </el-form-item>
 
@@ -86,9 +81,6 @@ const emit = defineEmits<{
   (e: 'remove'): void
 }>()
 
-
-
-// обновляем поле
 function updateField(key: keyof typeof props.modelValue, value: string | null) {
   emit('update:modelValue', {
     ...props.modelValue,
@@ -96,7 +88,6 @@ function updateField(key: keyof typeof props.modelValue, value: string | null) {
   })
 }
 
-// смена типа (и обнуление пароля если LDAP)
 function onTypeChange(value: 'local' | 'ldap') {
   const newPassword = value === 'ldap' ? null : props.modelValue.password ?? ''
   emit('update:modelValue', {
@@ -105,11 +96,7 @@ function onTypeChange(value: 'local' | 'ldap') {
     password: newPassword,
   })
 }
-
-
-
 </script>
-
 
 <style scoped>
 .account-row {
@@ -123,28 +110,22 @@ function onTypeChange(value: 'local' | 'ldap') {
   width: 100%;
   box-sizing: border-box;
 }
-
 .input-item {
   flex: 0 0 auto;
   box-sizing: border-box;
 }
-
 .input-label {
   flex: 0 0 27%;
 }
-
 .input-type {
   flex: 0 0 17%;
 }
-
 .input-login {
   flex: 0 0 23%;
 }
-
 .input-password {
   flex: 0 0 23%;
 }
-
 .remove-btn {
   flex: 0 0 5%;
   min-width: 20px;
@@ -153,12 +134,9 @@ function onTypeChange(value: 'local' | 'ldap') {
   display: flex;
   justify-content: center;
 }
-
-/* При LDAP логин растягивается на две ячейки (логин + пароль) */
 .input-login.full-width {
   flex: 0 0 calc(46% + 8px);
 }
-
 .el-select-dropdown__item {
   font-family: 'Inter', sans-serif;
   font-weight: 500;

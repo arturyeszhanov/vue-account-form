@@ -25,7 +25,7 @@
 import { ref } from 'vue'
 import AccountItem from './AccountItem.vue'
 import type { Account } from '@/types/Account'
-import { accountFormRules } from '@/validators/AccountRules'
+import { accountFormRules, validateRequiredFields } from '@/validators/AccountRules'
 
 const props = defineProps<{ accounts: Account[] }>()
 const emit = defineEmits<{
@@ -33,17 +33,19 @@ const emit = defineEmits<{
   (e: 'update', index: number, updated: Account): void
 }>()
 
-
 const rules = accountFormRules
 
-
-// 2. refs на каждый el-form
 const formRefs = ref<(FormInstance | null)[]>([])
 
 
 const remove = (index: number) => emit('remove', index)
-
-
+function parseLabels(input: string): { text: string }[] {
+  return input
+    .split(';')
+    .map(label => label.trim())
+    .filter(label => label.length > 0)
+    .map(label => ({ text: label }))
+}
 
 const updateAccount = async (index: number, updated: Account) => {
   props.accounts[index] = updated
@@ -52,16 +54,16 @@ const updateAccount = async (index: number, updated: Account) => {
 
   try {
     await form.validate()
+    const transformed = {
+      ...updated,
+      labels: parseLabels(updated.labels || ''),
+    }
     emit('update', index, updated)
   } catch {
     console.warn(`⚠️ Строка ${index + 1} невалидна, не сохраняем`)
   }
 }
-
-
-
 </script>
-
 
 <style scoped>
 .fade-slide-enter-active,

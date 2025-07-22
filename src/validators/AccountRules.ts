@@ -1,5 +1,15 @@
 import type { FormRules } from 'element-plus'
 
+function labelValidator(_rule: any, value: any, callback: any) {
+  if (!value) return callback()
+
+  if (value.length > 50) {
+    return callback(new Error('Метка не должна превышать 50 символов'))
+  }
+
+  return callback()
+}
+
 function typeValidator(_rule: any, value: any, callback: any) {
   if (!value) {
     return callback(new Error('Выберите тип записи'))
@@ -25,7 +35,6 @@ function loginValidator(_rule: any, value: any, callback: any) {
   return callback()
 }
 
-
 function passwordValidator(_rule: any, value: any, callback: any) {
   const type = (this as any)?.type
 
@@ -49,6 +58,12 @@ function passwordValidator(_rule: any, value: any, callback: any) {
 }
 
 export const accountFormRules: FormRules = {
+  label: [
+    {
+      validator: labelValidator,
+      trigger: ['blur'],
+    },
+  ],
   type: [
     {
       validator: typeValidator,
@@ -67,9 +82,9 @@ export const accountFormRules: FormRules = {
       trigger: ['blur'],
     },
   ],
-}
+} 
 
-function validateRequiredFields(index: number) {
+export function validateRequiredFields(index: number) {
   const form = formRefs.value[index]
   if (!form) return
 
