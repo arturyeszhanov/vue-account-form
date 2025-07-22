@@ -9,6 +9,7 @@
         :model-value="modelValue.label"
         @input="val => updateField('label', val)"
         placeholder="Значение"
+        @blur="$emit('blur')"
       />
     </el-form-item>
 
@@ -22,6 +23,7 @@
         :model-value="modelValue.type"
         @update:modelValue="onTypeChange"
         placeholder="Значение"
+        @blur="$emit('blur')"
       >
         <el-option label="Локальная" value="local" />
         <el-option label="LDAP" value="ldap" />
@@ -38,6 +40,7 @@
         :model-value="modelValue.login"
         @input="val => updateField('login', val)"
         placeholder="Значение"
+        @blur="$emit('blur')"
       />
     </el-form-item>
 
@@ -53,6 +56,7 @@
         @input="val => updateField('password', val)"
         placeholder="Значение"
         show-password
+        
     />
     </el-form-item>
 
@@ -70,16 +74,18 @@
 <script setup lang="ts">
 import { Delete } from '@element-plus/icons-vue'
 import type { NewAccount } from '@/types'
-
+import type { FormInstance } from 'element-plus'
 const props = defineProps<{
   modelValue: NewAccount & { password: string | null }
   showLabels?: boolean
+  formRef: FormInstance | null
 }>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: typeof props.modelValue): void
   (e: 'remove'): void
 }>()
+
 
 
 // обновляем поле

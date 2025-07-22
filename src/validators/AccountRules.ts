@@ -1,40 +1,80 @@
-import type { Account } from '@/types'
+import type { FormRules } from 'element-plus'
 
-export const accountRules = {
-    login: [
-        { required: true, message: 'Поле обязательно', trigger: 'blur' },
-        { max: 100, message: 'Максимум 100 символов', trigger: 'blur' }
-      ],
-      password: [
-        {
-          validator: (_rule, value, callback, source) => {
-            const trimmed = (value || '').trim()
-            const account = source as Partial<Account>
-      
-            if (account.type === 'local') {
-              if (!value || trimmed === '') {
-                return callback(new Error('Поле обязательно"'))
-              }
-      
-              if (trimmed.length > 5) {
-                return callback(new Error('Максимум 5 символов'))
-              }
-            }
-            
-            return callback()
-          },
-          trigger: 'blur'
-        }
-      ],
-      type: [
-      {
-          validator: (_rule, value, callback) => {
-          if (value !== 'local' && value !== 'ldap') {
-              return callback(new Error('Тип записи обязателен'))
-          }
-          return callback()
-          },
-          trigger: 'blur'
-      }
-      ]
+function typeValidator(_rule: any, value: any, callback: any) {
+  if (!value) {
+    return callback(new Error('Выберите тип записи'))
+  }
+  return callback()
+}
+
+function loginValidator(_rule: any, value: any, callback: any) {
+  const type = (this as any)?.type
+
+  if (!type) {
+    return callback()
+  }
+
+  if (!value) {
+    return callback(new Error('Введите логин'))
+  }
+
+  if (value.length > 100) {
+    return callback(new Error('Логин не должен превышать 100 символов'))
+  }
+
+  return callback()
+}
+
+
+function passwordValidator(_rule: any, value: any, callback: any) {
+  const type = (this as any)?.type
+
+  if (!type) {
+    return callback()
+  }
+
+  if (type === 'ldap') {
+    return callback()
+  }
+
+  if (!value) {
+    return callback(new Error('Введите пароль'))
+  }
+
+  if (value.length > 100) {
+    return callback(new Error('Пароль не должен превышать 100 символов'))
+  }
+
+  return callback()
+}
+
+export const accountFormRules: FormRules = {
+  type: [
+    {
+      validator: typeValidator,
+      trigger: ['change'],
+    },
+  ],
+  login: [
+    {
+      validator: loginValidator,
+      trigger: ['blur'],
+    },
+  ],
+  password: [
+    {
+      validator: passwordValidator,
+      trigger: ['blur'],
+    },
+  ],
+}
+
+function validateRequiredFields(index: number) {
+  const form = formRefs.value[index]
+  if (!form) return
+
+  const fieldsToValidate = ['type', 'login', 'password']
+  for (const field of fieldsToValidate) {
+    form.validateField(field)
+  }
 }

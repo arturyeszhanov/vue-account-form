@@ -1,11 +1,16 @@
 <template>
-<p>Всего аккаунтов: {{ accounts.length }}</p>
+
   <div class="container">
-    <div class="title">
-        <h2>Учетные записи</h2>
-        <el-button type="primary" class="add-btn" @click="addAccount">
-        <el-icon><Plus /></el-icon>
-        </el-button>
+    <div class="header">
+		<div class="title">
+        	<h2>Учетные записи</h2>
+			<el-button type="primary" class="add-btn" @click="addAccount">
+			<el-icon><Plus /></el-icon>
+			</el-button>
+		</div>
+		<div class="count">
+			<span>Всего аккаунтов: {{ accounts.length }}</span>
+		</div>
     </div>
     <div class="subtitle">
       <el-icon class="subtitle-icon">
@@ -65,6 +70,11 @@ function updateAccount(index: number, updated: Account) {
   border-radius: 4px;
   background-color: #fff;
 }
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
 .title {
   display: flex;
   align-items: center;
@@ -72,6 +82,11 @@ function updateAccount(index: number, updated: Account) {
   margin-bottom: 16px;
   font-family: Inter, sans-sarif;
   font-weight: 400;
+}
+.count {
+	font-family: Inter, sans-serif;
+	font-weight: 500;
+	font-size: 14px;
 }
 .add-btn {
   width: 28px;
