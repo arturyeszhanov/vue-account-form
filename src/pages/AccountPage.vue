@@ -1,5 +1,4 @@
 <template>
-
   <div class="container">
     <div class="header">
 		<div class="title">
@@ -22,7 +21,7 @@
     </div>
 
     <AccountList :accounts="store.accounts" @remove="removeAccount" @update="updateAccount"/>
-  
+
   </div>
 </template>
 
@@ -40,6 +39,7 @@ onMounted(() => { store.loadFromLocalStorage()})
 
 function addAccount() {
   store.addAccount({
+	id: crypto.randomUUID(),
     label: '',
     type: null,
     login: '',
@@ -55,7 +55,6 @@ function removeAccount(index: number) {
 function updateAccount(index: number, updated: Account) {
   store.updateAccount(index, updated)
 }
-
 
 </script>
 
@@ -92,18 +91,16 @@ function updateAccount(index: number, updated: Account) {
   width: 28px;
   height: 28px;
   padding: 0;
-  border-radius: 4px; /* квадратная форма */
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 .add-btn .el-icon {
-  font-size: 24px;  /* увеличить размер плюса */
-  font-weight: bold; /* сделать жирнее */
+  font-size: 24px;
+  font-weight: bold;
 }
 
-/* Абзац с иконкой */
 .subtitle {
   font-family: Inter, sans-serif;
   font-weight: 400;
@@ -116,7 +113,6 @@ function updateAccount(index: number, updated: Account) {
   color: #555;
   margin-bottom: 30px;
 }
-
 .subtitle-icon {
   margin-right: 8px;
   color: #409eff;

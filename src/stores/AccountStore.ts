@@ -1,18 +1,18 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { Account, NewAccount } from '@/types'
+import type { Account } from '@/types/Account'
 
 export const AccountStore = defineStore('account', () => {
   const accounts = ref<Account[]>([])
 
-  function addAccount(account: NewAccount) {
-    const newAccount: Account = {
+  function addAccount(account: Account) {
+    const Account: Account = {
       ...account,
       id: crypto.randomUUID(),
       password: account.password ?? null,
       dirty: false
     }
-    accounts.value.push(newAccount)
+    accounts.value.push(Account)
   }
 
   function removeAccount(index: number) {

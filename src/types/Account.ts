@@ -1,17 +1,9 @@
 export interface Account {
-  id: number
+  id: string
   label: string
   type: 'local' | 'ldap' | null
   login: string
   password: string | null
-  dirty: boolean
-}
-
-export interface NewAccount {
-  label: string
-  type: 'local' | 'ldap' | null
-  login: string
-  password?: string | null
   dirty: boolean
 }
 

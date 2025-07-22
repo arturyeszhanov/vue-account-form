@@ -1,33 +1,64 @@
-# vue-account-form
+# 📘 Account Form
 
-This template should help get you started developing with Vue 3 in Vite.
+Приложение на **Vue 3** с использованием **Element Plus** для управления списком учётных записей.
 
-## Recommended IDE Setup
+---
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 🚀 Технологии
 
-## Type Support for `.vue` Imports in TS
+- [Vue 3](https://vuejs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Element Plus](https://element-plus.org/)
+- [Vite](https://vitejs.dev/)
+- Composition API + Script Setup
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+---
 
-## Customize configuration
+## 🚀 Деплой
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Проект развернут на [Vercel](https://your-project.vercel.app)
 
-## Project Setup
 
-```sh
+## 🖥️ Главный экран
+![Главный экран](./src/assets/sreen.png)
+
+## 📦 Установка
+
+```bash
+git clone https://github.com/arturyeszhanov/vue-account-form.git
+cd vue-account-form
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+## 🗂 Структура проекта
+```bash
+.
+├── public/
+│   └── favicon.png
+├── src/
+│   ├── App.vue
+│   ├── main.ts                         # Точка входа в приложение
+│   ├── components/
+│   │   ├── AccountItem.vue             # Один элемент
+│   │   └── AccountList.vue             # Список всех аккаунтов
+│   ├── pages/
+│   │   └── AccountPage.vue             # Основная страница: заголовок, кнопка "добавить"
+│   ├── stores/
+│   │   └── AccountStore.ts             # Хранилище
+│   ├── types/
+│   │   └── Account.ts                  # Описание типа Account
+│   └── validators/
+│       └── AccountRules.ts             # Правила валидации для форм (Element Plus Form Rules)
+├── vite.config.ts
+├── tsconfig.json
+├── package.json
+└── README.md
 
-```sh
-npm run build
 ```
+
+
+## 📬 Контакты
+
+- [Telegram](https://t.me/artyes26): @artyes26  
+- [GitHub](https://github.com/arturyeszhanov): arturyeszhanov

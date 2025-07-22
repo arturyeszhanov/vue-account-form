@@ -1,4 +1,5 @@
-import type { FormRules } from 'element-plus'
+import type { FormRules, FormInstance } from 'element-plus'
+import { ref } from 'vue'
 
 function labelValidator(_rule: any, value: any, callback: any) {
   if (!value) return callback()
@@ -17,7 +18,7 @@ function typeValidator(_rule: any, value: any, callback: any) {
   return callback()
 }
 
-function loginValidator(_rule: any, value: any, callback: any) {
+function loginValidator(this: any, _rule: any, value: any, callback: any) {
   const type = (this as any)?.type
 
   if (!type) {
@@ -35,7 +36,7 @@ function loginValidator(_rule: any, value: any, callback: any) {
   return callback()
 }
 
-function passwordValidator(_rule: any, value: any, callback: any) {
+function passwordValidator(this: any, _rule: any, value: any, callback: any) {
   const type = (this as any)?.type
 
   if (!type) {
@@ -83,6 +84,8 @@ export const accountFormRules: FormRules = {
     },
   ],
 } 
+
+const formRefs = ref<(FormInstance | null)[]>([])
 
 export function validateRequiredFields(index: number) {
   const form = formRefs.value[index]

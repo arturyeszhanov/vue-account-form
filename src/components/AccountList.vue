@@ -6,7 +6,7 @@
       :model="accounts[index]"
       :rules="accountFormRules"
       label-position="top"
-      :ref="el => formRefs[index] = el"
+      :ref="(el: FormInstance | null) => formRefs[index] = el"
       status-icon
     >
       <AccountItem
@@ -25,6 +25,7 @@
 import { ref } from 'vue'
 import AccountItem from './AccountItem.vue'
 import type { Account } from '@/types/Account'
+import type { FormInstance } from 'element-plus'
 import { accountFormRules, validateRequiredFields } from '@/validators/AccountRules'
 
 const props = defineProps<{ accounts: Account[] }>()
@@ -37,9 +38,10 @@ const rules = accountFormRules
 
 const formRefs = ref<(FormInstance | null)[]>([])
 
-
 const remove = (index: number) => emit('remove', index)
-function parseLabels(input: string): { text: string }[] {
+
+function parseLabels(input: string | undefined | null): { text: string }[] {
+  if (!input) return []
   return input
     .split(';')
     .map(label => label.trim())
@@ -56,13 +58,14 @@ const updateAccount = async (index: number, updated: Account) => {
     await form.validate()
     const transformed = {
       ...updated,
-      labels: parseLabels(updated.labels || ''),
+      labels: parseLabels(updated.label || ''),
     }
     emit('update', index, updated)
   } catch {
     console.warn(`⚠️ Строка ${index + 1} невалидна, не сохраняем`)
   }
 }
+
 </script>
 
 <style scoped>

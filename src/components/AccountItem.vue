@@ -1,14 +1,14 @@
 <template>
   <div class="account-row">
     <el-form-item
-      :label="showLabels ? 'Метка' : ''"
+      string:label="showLabels ? 'Метка' : ''"
       class="input-item input-label"
     >
       <el-input
         :model-value="modelValue.label"
-        @input="val => updateField('label', val)"
+        @input="(val: string) => updateField('label', val)"
         placeholder="Значение"
-        @blur="$emit('blur')"
+        
       />
     </el-form-item>
 
@@ -21,7 +21,7 @@
         :model-value="modelValue.type"
         @update:modelValue="onTypeChange"
         placeholder="Значение"
-        @blur="$emit('blur')"
+        
       >
         <el-option label="Локальная" value="local" />
         <el-option label="LDAP" value="ldap" />
@@ -35,9 +35,9 @@
     >
       <el-input
         :model-value="modelValue.login"
-        @input="val => updateField('login', val)"
+        @input="(val: any) => updateField('login', val)"
         placeholder="Значение"
-        @blur="$emit('blur')"
+        
       />
     </el-form-item>
 
@@ -49,7 +49,7 @@
     >
     <el-input
         :model-value="modelValue.password"
-        @input="val => updateField('password', val)"
+        @input="(val: any) => updateField('password', val)"
         placeholder="Значение"
         show-password
     />
@@ -68,10 +68,11 @@
 
 <script setup lang="ts">
 import { Delete } from '@element-plus/icons-vue'
-import type { NewAccount } from '@/types'
 import type { FormInstance } from 'element-plus'
+import type { Account } from '@/types/Account'
+
 const props = defineProps<{
-  modelValue: NewAccount & { password: string | null }
+  modelValue: Account & { password: string | null }
   showLabels?: boolean
   formRef: FormInstance | null
 }>()
